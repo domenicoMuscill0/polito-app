@@ -2,7 +2,14 @@ import { useEffect, useRef } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import Svg, { Circle, Rect } from 'react-native-svg';
 
-const getRandomInt = max => Math.floor(Math.random() * max);
+const getRandomInt = (max: number) => Math.floor(Math.random() * max);
+
+interface Star {
+  id: number;
+  x: number;
+  y: number;
+  z: number;
+}
 
 export const ShineAnimation = ({
   speedFactor = 0.05,
@@ -10,11 +17,11 @@ export const ShineAnimation = ({
   starCount = 5000,
 }) => {
   const { width, height } = Dimensions.get('window');
-  const starsRef = useRef([]);
+  const starsRef = useRef<Star[]>([]);
 
   useEffect(() => {
-    const createStars = count => {
-      const stars = [];
+    const createStars = (count: number) => {
+      const stars: Star[] = [];
       for (let i = 0; i < count; i++) {
         stars.push({
           id: i,
@@ -29,7 +36,7 @@ export const ShineAnimation = ({
     starsRef.current = createStars(starCount);
 
     const moveStars = (distance: number) => {
-      starsRef.current.forEach(star => {
+      starsRef.current.forEach((star: Star) => {
         star.z -= distance;
         if (star.z <= 1) star.z += 1000;
       });
@@ -52,7 +59,7 @@ export const ShineAnimation = ({
   const renderStars = () => {
     const cx = width / 2;
     const cy = height / 2;
-    const starElements = starsRef.current.map(star => {
+    const starElements = starsRef.current.map((star: Star) => {
       const x = cx + star.x / (star.z * 0.001);
       const y = cy + star.y / (star.z * 0.001);
       const d = star.z / 1000.0;

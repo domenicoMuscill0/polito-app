@@ -36,6 +36,8 @@ interface Title {
   community: boolean; // Indicates if the title is a community title
 }
 
+type TitleChecker = (title: Title) => boolean;
+
 const titles: Title[] = [
   {
     name: 'Perfectionist',
@@ -131,7 +133,7 @@ export const AchievementsScreen = () => {
       : t1.name.localeCompare(t2.name);
   });
 
-  const renderTitles = filterFn =>
+  const renderTitles = (filterFn: TitleChecker) =>
     sortedTitles.filter(filterFn).map((title, index) => {
       const titleAcquired = title.achievements.every(a => a.achieved);
       return (
@@ -142,7 +144,7 @@ export const AchievementsScreen = () => {
             titleAcquired && styles.acquiredTitleBanner,
           ]}
         >
-          {titleAcquired && <ShineAnimation styles={styles} />}
+          {titleAcquired && <ShineAnimation />}
           <Text
             style={[
               styles.title,
