@@ -535,6 +535,9 @@
     "globalTitle": "Globali",
     "globalSubtitle": "Le notifiche importanti sono sempre attive"
   },
+  "achievementsScreen": {
+    "title": "Obiettivi"
+  },
   "offeringBachelorScreen": {
     "title": "Lauree triennali"
   },

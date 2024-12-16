@@ -9,6 +9,7 @@ import {
   faCog,
   faMessage,
   faSignOut,
+  faTrophy,
 } from '@fortawesome/free-solid-svg-icons';
 import { Col } from '@lib/ui/components/Col';
 import { CtaButton } from '@lib/ui/components/CtaButton';
@@ -176,6 +177,11 @@ export const ProfileScreen = ({ navigation }: Props) => {
             />
           </OverviewList>
           <OverviewList indented>
+            <ListItem
+              title={t('achievementsScreen.title')}
+              leadingItem={<Icon icon={faTrophy} size={fontSizes.xl} />}
+              linkTo="Achievements"
+            />
             <ListItem
               title={t('notificationsScreen.title')}
               leadingItem={<Icon icon={faBell} size={fontSizes.xl} />}

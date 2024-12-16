@@ -535,6 +535,9 @@
     "globalTitle": "Global",
     "globalSubtitle": "Important notifications are always active"
   },
+  "achievementsScreen": {
+    "title": "Achievements"
+  },
   "offeringBachelorScreen": {
     "title": "Bachelor degree"
   },
