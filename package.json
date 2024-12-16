@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "commit": "commit",
     "bump": "standard-version",
-    "lint:check": "eslint '**/*.{ts,tsx}'",
+    "lint:check": "eslint \"**/*.{ts,tsx}\"",
     "lint": "npm run lint:check -- --fix",
     "format:check": "prettier --check '**/*.{ts,tsx,md}'",
     "format": "prettier --write '**/*.{ts,tsx,md}'",
