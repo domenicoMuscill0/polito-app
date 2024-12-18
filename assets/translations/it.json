@@ -1,4 +1,21 @@
 {
+  "achievements": {
+    "visibility": {
+      "all": "Tutti gli obiettivi",
+      "global": "Solo gli obiettivi standard",
+      "community": "Solo gli obiettivi della community",
+      "none": "Nessuno"
+    },
+    "screen": {
+      "title": "Obiettivi"
+    },
+    "global": {
+        "title": "Obiettivi Globali"
+      },
+      "community": {
+        "title": "Obiettivi della Community"
+      }
+  },
   "agendaScreen": {
     "backToToday": "Torna a oggi",
     "dailyLayout": "Layout giornaliero",
@@ -72,6 +89,7 @@
     "yellow": "Giallo"
   },
   "common": {
+    "achievements": "Obiettivi",
     "actionPotentiallyNotUndoable": "Questa azione potrebbe non essere annullabile",
     "activeStatus": {
       "false": "Non attiva",
@@ -534,9 +552,6 @@
     "perCourseTitle": "Corsi",
     "globalTitle": "Globali",
     "globalSubtitle": "Le notifiche importanti sono sempre attive"
-  },
-  "achievementsScreen": {
-    "title": "Obiettivi"
   },
   "offeringBachelorScreen": {
     "title": "Lauree triennali"

@@ -11,15 +11,19 @@ import {
   View,
 } from 'react-native';
 
-// import ImagePicker from 'react-native-image-crop-picker';
-import { Achievement } from '../screens/AchievementsScreen';
+export interface Achievement {
+  title: string;
+  description: string;
+  achieved: boolean;
+  image?: string;
+}
 
 interface AchievementFormProps {
   onSave: (achievement: Achievement, titleName: string) => void;
   titles: string[];
 }
 
-export const AddAchievementForm: React.FC<AchievementFormProps> = ({
+export const AddAchievementsForm: React.FC<AchievementFormProps> = ({
   onSave,
   titles,
 }) => {
@@ -28,20 +32,6 @@ export const AddAchievementForm: React.FC<AchievementFormProps> = ({
   const [image, setImage] = useState('');
   const [selectedTitle, setSelectedTitle] = useState(titles[0]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-
-  // const pickImage = () => {
-  //   ImagePicker.openPicker({
-  //     width: 300,
-  //     height: 400,
-  //     cropping: true,
-  //   })
-  //   .then(img => {
-  //     setImage(img.path);
-  //   })
-  //   .catch(error => {
-  //     // TODO logger error?
-  //   });
-  // };
 
   const handleSave = () => {
     if (!title.trim()) {
@@ -65,6 +55,7 @@ export const AddAchievementForm: React.FC<AchievementFormProps> = ({
     setDescription('');
     setImage('');
     setSelectedTitle(titles[0]);
+    Alert.alert('Success', 'Achievement saved successfully!');
   };
 
   const handleDropdownToggle = () => {
@@ -106,7 +97,6 @@ export const AddAchievementForm: React.FC<AchievementFormProps> = ({
           ))}
         </ScrollView>
       )}
-      {/* <Button title="Pick an Image" onPress={pickImage} />*/}
       {image && <Image source={{ uri: image }} style={styles.image} />}
       <Button title="Save Achievement" onPress={handleSave} />
     </View>

@@ -6,6 +6,7 @@ import { PersonOverview } from '@polito/api-client/models';
 import { AgendaTypesFilterState } from '../../features/agenda/types/AgendaTypesFilterState';
 
 export const editablePreferenceKeys = [
+  'achievementsVisibility',
   'lastInstalledVersion',
   'username',
   'campusId',
@@ -42,6 +43,7 @@ export type CoursesPreferences = {
 };
 
 export interface PreferencesContextBase {
+  achievementsVisibility: string;
   lastInstalledVersion: string | null;
   username: string;
   campusId?: string;

@@ -178,7 +178,7 @@ export const ProfileScreen = ({ navigation }: Props) => {
           </OverviewList>
           <OverviewList indented>
             <ListItem
-              title={t('achievementsScreen.title')}
+              title={t('achievements.screen.title')}
               leadingItem={<Icon icon={faTrophy} size={fontSizes.xl} />}
               linkTo="Achievements"
             />

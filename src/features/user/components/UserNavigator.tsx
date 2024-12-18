@@ -7,9 +7,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderLogo } from '../../../core/components/HeaderLogo';
 import { useTitlesStyles } from '../../../core/hooks/useTitlesStyles';
 import { SharedScreens } from '../../../shared/navigation/SharedScreens';
+import { AchievementsScreen } from '../../achievements/screens/AchievementsScreen';
 import { DegreeTopTabsNavigator } from '../../offering/navigation/DegreeTopTabsNavigator';
 import { OfferingStackParamList } from '../../services/components/ServicesNavigator';
-import { AchievementsScreen } from '../screens/AchievementsScreen';
 import { MessageScreen } from '../screens/MessageScreen';
 import { MessagesScreen } from '../screens/MessagesScreen';
 import { NotificationsScreen } from '../screens/NotificationsScreen';
@@ -59,7 +59,7 @@ export const UserNavigator = () => {
         name="Achievements"
         component={AchievementsScreen}
         options={{
-          headerTitle: t('achievementsScreen.title'),
+          headerTitle: t('achievements.screen.title'),
         }}
       />
       <Stack.Screen

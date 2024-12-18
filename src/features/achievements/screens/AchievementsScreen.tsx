@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Button,
@@ -20,23 +21,25 @@ import { Section } from '@lib/ui/components/Section';
 import { SectionHeader } from '@lib/ui/components/SectionHeader';
 import { useTheme } from '@lib/ui/hooks/useTheme';
 
-import { AddAchievementForm } from '../components/AddAchievementsForm';
+import { usePreferencesContext } from '../../../core/contexts/PreferencesContext';
+// Ensure you have this component
+import { AddAchievementsForm } from '../components/AddAchievementsForm';
+// Ensure you have this component
 import { ShineAnimation } from '../components/ShineAnimation';
+import SlidingDrawer from '../components/SlidingDrawer';
 
 export interface Achievement {
   title: string;
   description: string;
   achieved: boolean;
-  image?: string; // Optional property
+  image?: string;
 }
 
-interface Title {
+export interface Title {
   name: string;
   achievements: Achievement[];
-  community: boolean; // Indicates if the title is a community title
+  community: boolean;
 }
-
-type TitleChecker = (title: Title) => boolean;
 
 const titles: Title[] = [
   {
@@ -104,20 +107,24 @@ const titles: Title[] = [
 ];
 
 export const AchievementsScreen = () => {
+  const { t } = useTranslation();
   const { fontSizes, colors } = useTheme();
+  const achievementsPreference = usePreferencesContext().achievementsVisibility;
   const [showAll, setShowAll] = useState(false);
   const [showCommunity, setShowCommunity] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleShowMore = () => setShowAll(!showAll);
   const toggleCommunity = () => setShowCommunity(!showCommunity);
-  const toggleForm = () => setShowForm(!showForm);
 
   const addAchievement = (achievement: Achievement, selectedTitle: string) => {
-    const title = titles.find(t => t.name === selectedTitle);
+    const title = titles.find(ti => ti.name === selectedTitle);
     if (title) {
+      // Call the LLM to create the callback from the description
+      // Ensure the achievement can be set by the user (i.e. the user would be granted the achievement)
       title.achievements.push(achievement);
-      setShowForm(false);
+      setIsDrawerOpen(false);
+      Alert.alert('Success', 'Achievement saved successfully!');
     } else {
       Alert.alert('Error', 'Selected title not found.');
     }
@@ -133,7 +140,7 @@ export const AchievementsScreen = () => {
       : t1.name.localeCompare(t2.name);
   });
 
-  const renderTitles = (filterFn: TitleChecker) =>
+  const renderTitles = (filterFn: (title: Title) => boolean) =>
     sortedTitles.filter(filterFn).map((title, index) => {
       const titleAcquired = title.achievements.every(a => a.achieved);
       return (
@@ -207,55 +214,91 @@ export const AchievementsScreen = () => {
     <ScrollView contentInsetAdjustmentBehavior="automatic">
       <SafeAreaView>
         <View style={styles.container}>
-          <Section>
-            <SectionHeader title="Global Achievements" />
-            <OverviewList indented>
-              {renderTitles((t: Title) => !t.community)}
-            </OverviewList>
-            <Button
-              title={showAll ? 'See Less' : 'See More'}
-              onPress={handleShowMore}
-            />
-          </Section>
-          <Section>
-            <TouchableOpacity
-              style={styles.sectionHeaderContainer}
-              onPress={toggleCommunity}
-            >
-              <Text
-                style={{
-                  fontSize: fontSizes.lg,
-                  color: colors.title,
-                  fontWeight: 'bold',
-                }}
-              >
-                Community Achievements
-              </Text>
-              <FontAwesomeIcon
-                icon={showCommunity ? faChevronDown : faChevronRight}
-                size={fontSizes['2xl']}
-                color="black"
-              />
-            </TouchableOpacity>
-            {showCommunity && (
-              <>
-                <OverviewList indented>
-                  {renderTitles((t: Title) => t.community)}
-                </OverviewList>
-                <Button
-                  title={showForm ? 'Cancel' : 'Add Achievement'}
-                  color={showForm ? 'gray' : undefined}
-                  onPress={toggleForm}
-                />
-                {showForm && (
-                  <AddAchievementForm
-                    onSave={addAchievement}
-                    titles={titles.map(title => title.name)}
-                  />
+          {achievementsPreference === 'none' ? (
+            <Text style={{ color: 'gray', textAlign: 'center', margin: 20 }}>
+              You have disabled all achievements. To enable them go to Settings{' '}
+              {'>'} Achievements {'>'} All
+            </Text>
+          ) : (
+            <>
+              <Section>
+                <SectionHeader title={t('achievements.screen.global.title')} />
+                {achievementsPreference !== 'community' ? (
+                  <>
+                    <OverviewList indented>
+                      {renderTitles((ti: Title) => !ti.community)}
+                    </OverviewList>
+                    <Button
+                      title={showAll ? 'See Less' : 'See More'}
+                      onPress={handleShowMore}
+                    />
+                  </>
+                ) : (
+                  <Text
+                    style={{ color: 'gray', textAlign: 'center', margin: 20 }}
+                  >
+                    You have disabled global achievements. To enable them go to
+                    Settings {'>'} Achievements {'>'} Global
+                  </Text>
                 )}
-              </>
-            )}
-          </Section>
+              </Section>
+              <Section>
+                <TouchableOpacity
+                  style={styles.sectionHeaderContainer}
+                  onPress={toggleCommunity}
+                >
+                  <Text
+                    style={{
+                      fontSize: fontSizes.lg,
+                      color: colors.title,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {t('achievements.screen.community.title')}
+                  </Text>
+                  <FontAwesomeIcon
+                    icon={showCommunity ? faChevronDown : faChevronRight}
+                    size={fontSizes['2xl']}
+                    color="black"
+                  />
+                </TouchableOpacity>
+                {achievementsPreference !== 'global'
+                  ? showCommunity && (
+                      <>
+                        <OverviewList indented>
+                          {renderTitles((ti: Title) => ti.community)}
+                        </OverviewList>
+                        <Button
+                          title="Add Achievement"
+                          onPress={() => setIsDrawerOpen(!isDrawerOpen)}
+                        />
+                        <SlidingDrawer
+                          isOpen={isDrawerOpen}
+                          onClose={() => setIsDrawerOpen(false)}
+                        >
+                          <AddAchievementsForm
+                            onSave={addAchievement}
+                            titles={titles.map(title => title.name)}
+                          />
+                        </SlidingDrawer>
+                      </>
+                    )
+                  : showCommunity && (
+                      <Text
+                        style={{
+                          color: 'gray',
+                          textAlign: 'center',
+                          margin: 20,
+                        }}
+                      >
+                        You have disabled community achievements. To enable them
+                        go to Settings {'>'} Achievements {'>'} Community
+                      </Text>
+                    )}
+              </Section>
+            </>
+          )}
+          <View style={styles.footer} />
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -324,10 +367,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingStart: 0,
   },
-  shineLight: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    opacity: 0.3,
+  footer: {
+    height: 100,
   },
 });
