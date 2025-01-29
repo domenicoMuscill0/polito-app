@@ -1,4 +1,21 @@
 {
+  "achievements": {
+    "visibility": {
+      "all": "Tutti gli obiettivi",
+      "global": "Solo gli obiettivi standard",
+      "community": "Solo gli obiettivi della community",
+      "none": "Nessuno"
+    },
+    "screen": {
+      "title": "Obiettivi"
+    },
+    "global": {
+        "title": "Obiettivi Globali"
+      },
+      "community": {
+        "title": "Obiettivi della Community"
+      }
+  },
   "agendaScreen": {
     "backToToday": "Torna a oggi",
     "dailyLayout": "Layout giornaliero",
@@ -77,6 +94,7 @@
     "yellow": "Giallo"
   },
   "common": {
+    "achievements": "Obiettivi",
     "active": "Attivo",
     "disabledPreviousValue": "Disattivato perche non sono stati inseriti i precedenti valori",
     "actionPotentiallyNotUndoable": "Questa azione potrebbe non essere annullabile",

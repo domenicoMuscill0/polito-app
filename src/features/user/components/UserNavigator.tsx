@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HeaderLogo } from '../../../core/components/HeaderLogo';
 import { useTitlesStyles } from '../../../core/hooks/useTitlesStyles';
 import { SharedScreens } from '../../../shared/navigation/SharedScreens';
+import { AchievementsScreen } from '../../achievements/screens/AchievementsScreen';
 import { DegreeTopTabsNavigator } from '../../offering/navigation/DegreeTopTabsNavigator';
 import { OfferingStackParamList } from '../../services/components/ServicesNavigator';
 import { MessageScreen } from '../screens/MessageScreen';
@@ -52,6 +53,13 @@ export const UserNavigator = () => {
         options={{
           headerLeft: () => <HeaderLogo />,
           headerTitle: t('profileScreen.title'),
+        }}
+      />
+      <Stack.Screen
+        name="Achievements"
+        component={AchievementsScreen}
+        options={{
+          headerTitle: t('achievements.screen.title'),
         }}
       />
       <Stack.Screen

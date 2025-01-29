@@ -237,6 +237,57 @@ const LanguageListItem = () => {
   );
 };
 
+const AchievementsListItem = () => {
+  const { t } = useTranslation();
+  const { achievementsVisibility, updatePreference } = usePreferencesContext();
+  const visibilityOptions = [
+    {
+      id: 'all',
+      title: 'All',
+      state: 'all' === achievementsVisibility,
+    },
+    {
+      id: 'global',
+      title: 'Global',
+      state: 'global' === achievementsVisibility,
+    },
+    {
+      id: 'community',
+      title: 'Community',
+      state: 'community' === achievementsVisibility,
+    },
+    {
+      id: 'none',
+      title: 'None',
+      state: 'none' === achievementsVisibility,
+    },
+  ];
+  return (
+    <StatefulMenuView
+      actions={visibilityOptions.map(option => ({
+        id: option.id,
+        title: t(option.title),
+        state: option.id === achievementsVisibility ? 'on' : undefined,
+      }))}
+      onPressAction={({ nativeEvent: { event } }) => {
+        updatePreference(
+          'achievementsVisibility',
+          event as PreferencesContextBase['achievementsVisibility'],
+        );
+      }}
+    >
+      <ListItem
+        title={t(`achievements.visibility.${achievementsVisibility}`)}
+        isAction
+        accessibilityLabel={`${t('common.achievements')}: ${t(
+          `achievements.visibility.${achievementsVisibility}`,
+        )}. 
+                ${t('settingsScreen.openAchievementsMenu')}`}
+      />
+    </StatefulMenuView>
+  );
+};
+
 // TODO temporarily removed
 // eslint-disable-next-line unused-imports/no-unused-vars
 const Notifications = () => {
@@ -314,6 +365,12 @@ export const SettingsScreen = () => {
             <SectionHeader title={t('common.language')} />
             <OverviewList indented>
               <LanguageListItem />
+            </OverviewList>
+          </Section>
+          <Section>
+            <SectionHeader title={t('common.achievements')} />
+            <OverviewList indented>
+              <AchievementsListItem />
             </OverviewList>
           </Section>
           {/* <Section>

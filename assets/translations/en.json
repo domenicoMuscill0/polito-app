@@ -1,4 +1,21 @@
 {
+  "achievements": {
+    "visibility": {
+      "all": "All Achievements",
+      "global": "Only Global",
+      "community": "Only Community",
+      "none": "None"
+    },
+    "screen": {
+      "title": "Achievements",
+      "global": {
+        "title": "Global Achievements"
+      },
+      "community": {
+        "title": "Community Achievements"
+      }
+    }
+  },
   "agendaScreen": {
     "backToToday": "Back to today",
     "dailyLayout": "Daily layout",
@@ -72,6 +89,7 @@
     "yellow": "Yellow"
   },
   "common": {
+    "achievements": "Achievements",
     "actionPotentiallyNotUndoable": "This action may not be undoable",
     "activeStatus": {
       "false": "Non active",
