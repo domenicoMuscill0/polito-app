@@ -46,6 +46,10 @@ interface Props {
   navigation: NativeStackNavigationProp<UserStackParamList, 'Profile'>;
 }
 
+type UserDetailsProps = {
+  student?: Student;
+};
+
 const HeaderRightDropdown = ({
   student,
   isOffline,
@@ -100,6 +104,22 @@ const HeaderRightDropdown = ({
   );
 };
 
+const UserDetails = ({ student }: UserDetailsProps) => {
+  const { t } = useTranslation();
+  const { spacing, fontSizes } = useTheme();
+
+  return (
+    <Section accessible={false} style={{ marginTop: spacing[3] }}>
+      <SectionHeader
+        title={student?.lastName + ' ' + student?.firstName}
+        subtitle={t('common.shortUsername') + ' ' + student?.username}
+        titleStyle={{ fontSize: fontSizes.xl }}
+        subtitleStyle={{ fontSize: fontSizes.lg }}
+      />
+    </Section>
+  );
+};
+
 export const ProfileScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const { fontSizes } = useTheme();
@@ -135,7 +155,7 @@ export const ProfileScreen = ({ navigation }: Props) => {
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
-      refreshControl={<RefreshControl queries={[studentQuery]} />}
+      refreshControl={<RefreshControl manual queries={[studentQuery]} />}
     >
       <SafeAreaView>
         <View
@@ -146,15 +166,19 @@ export const ProfileScreen = ({ navigation }: Props) => {
             student?.firstName
           } ${student?.lastName}`}
         >
-          <Section accessible={false}>
-            <Col ph={5} pt={2}>
-              <FastImage
-                style={styles.smartCard}
-                source={{ uri: student?.smartCardPicture }}
-                resizeMode={FastImage.resizeMode.contain}
-              />
-            </Col>
-          </Section>
+          {student?.smartCardPicture ? (
+            <Section accessible={false}>
+              <Col ph={5} pt={2}>
+                <FastImage
+                  style={styles.smartCard}
+                  source={{ uri: student?.smartCardPicture }}
+                  resizeMode={FastImage.resizeMode.contain}
+                />
+              </Col>
+            </Section>
+          ) : (
+            <UserDetails student={student} />
+          )}
         </View>
         <Section accessible={false}>
           <SectionHeader
